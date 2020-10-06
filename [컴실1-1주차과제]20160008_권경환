@@ -1,0 +1,33 @@
+
+
+change_case()
+{
+	echo "working directory: "
+	pwd
+	pathind="`pwd`"
+	for i in `ls $pathind`
+	do
+		alter="$(echo "$i" | tr 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')"
+		if [ -d $i ]
+		then
+			alter="$pathind/$alter"
+		fi
+		mv "$i" "$alter"
+	done
+}
+
+if [ $# -gt 0 ]
+then
+	target=$1
+	iden="$(find -type d -name "$target")"
+	if [ "$iden" != "" ] 
+	then
+		cd "$target"
+		change_case
+	else 
+		echo "ERROR: No such directory exists."
+	fi
+
+else
+	change_case
+fi
